@@ -4,11 +4,21 @@ import axios from "axios";
 // - Development: http://localhost:3001
 // - Production: https://x402chainpay.onrender.com
 // - Can be overridden with VITE_API_BASE_URL environment variable
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  (import.meta.env.DEV
-    ? "http://localhost:3001"
-    : "https://x402chainpay.onrender.com");
+const getApiBaseUrl = () => {
+  // If explicitly set via environment variable, use it
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  
+  // Check if we're in production mode
+  const isProduction = import.meta.env.PROD || import.meta.env.MODE === 'production';
+  
+  return isProduction
+    ? "https://x402chainpay.onrender.com"
+    : "http://localhost:3001";
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
