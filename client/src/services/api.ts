@@ -1,7 +1,14 @@
 import axios from "axios";
 
+// API base URL configuration
+// - Development: http://localhost:3001
+// - Production: https://x402chainpay.onrender.com
+// - Can be overridden with VITE_API_BASE_URL environment variable
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "https://x402chainpay.onrender.com";
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.DEV
+    ? "http://localhost:3001"
+    : "https://x402chainpay.onrender.com");
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
